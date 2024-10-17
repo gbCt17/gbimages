@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Vertical Sliding Questions</title>
+        <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+        <script type="text/javascript">
+            var clevertap = {event:[], profile:[], account:[], onUserLogin:[], notifications:[], privacy:[]};
+            clevertap.account.push({"id": "TEST-489-7K5-676Z"},"eu1");
+            clevertap.privacy.push({optOut: false}); 
+            clevertap.privacy.push({useIP: false}); 
+            (function () {
+                    var wzrk = document.createElement('script');
+                    wzrk.type = 'text/javascript';
+                    wzrk.async = true;
+                    wzrk.src = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' : 'http://static.clevertap.com') + '/js/clevertap.min.js';        
+                    var s = document.getElementsByTagName('script')[0];
+                    s.parentNode.insertBefore(wzrk, s);
+            })();
+        </script>
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-size: cover;
+                margin: 0;
+            }
+            .container {
+                width: 100vh;
+                height: 100%;
+                position: relative;
+                box-sizing: border-box;
+                padding-top: 25%;
+                background-color: #F4ECFA;
+            }
+            .header-image {
+                margin: 5%;
+                margin-left: 7%;
+                width: 85%;
+                max-height: 100%;
+                object-fit: cover;
+            }
+            .slider {
+                display: flex;
+                flex-direction: column;
+                overflow-y: scroll;
+                scroll-snap-type: y mandatory;
+                width: 100%;
+                height: 40%;
+                scroll-behavior: smooth;
+                transition: scroll-top 1s ease;
+                padding: 0 5%;
+                box-sizing: border-box;
+                top: -7%;
+                position: relative;
+            }
+            .box {
+                flex: 0 0 100%;
+                width: 100%;
+                background-color: #7238A0;
+                border: 2px solid #9D72C3;
+                color: white;
+                font-size: 18px;
+                box-sizing: border-box;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+                padding: 20px;
+                border-radius: 25px;
+                margin-bottom: 10px;
+                scroll-snap-align: start;
+            }
+            .question {
+                margin-bottom: 20px;
+            }
+            .options {
+                display: flex;
+                gap: 10px;
+            }
+            .option {
+                display: flex;
+                align-items: center;
+            }
+            .option label {
+                margin-left: 5px;
+                font-size: 14px;
+            }
+            .btn-group {
+                display: flex;
+                gap: 10px;
+            }
+            .btn {
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                border: none;
+                border-radius: 5px;
+                width: 100px;
+                text-align: center;
+            }
+            .next-btn {
+                background-color: #4A2574;
+                color: white;
+            }
+            .back-btn {
+                background-color: #9D72C3;
+                color: white;
+            }
+            @keyframes growOut {
+                from {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                to {
+                    transform: scale(0.8);
+                    opacity: 0;
+                }
+            }
+            @keyframes growIn {
+                from {
+                    transform: scale(0.8);
+                    opacity: 0;
+                }
+                to {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+            .hidden {
+                animation: growOut 1s ease forwards;
+            }
+            .visible {
+                animation: growIn 1s ease forwards;
+            }
+            .results {
+                position: relative;
+                opacity: 0;
+                font-size: 24px;
+                font-weight: bold;
+                color: #333;
+                text-align: center;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <img src="https://iili.io/dk51tBn.md.png" alt="Top Image" class="header-image" id="header-image">
+            <div class="slider" id="slider">
+                <div class="box">
+                    <div class="question">Question 1: What is 2 + 2?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q1a1" name="q1" value="4">
+                            <label for="q1a1">4</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1a2" name="q1" value="5">
+                            <label for="q1a2">5</label>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn next-btn" onclick="nextQuestion()">Next</button>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="question">Question 2: What is the capital of France?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q2a1" name="q2" value="Paris">
+                            <label for="q2a1">Paris</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q2a2" name="q2" value="Rome">
+                            <label for="q2a2">Rome</label>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn back-btn" onclick="prevQuestion()">Back</button>
+                        <button class="btn next-btn" onclick="nextQuestion()">Next</button>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="question">Question 3: Which planet is known as the Red Planet?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q3a1" name="q3" value="Mars">
+                            <label for="q3a1">Mars</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3a2" name="q3" value="Jupiter">
+                            <label for="q3a2">Jupiter</label>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn back-btn" onclick="prevQuestion()">Back</button>
+                        <button class="btn next-btn" onclick="nextQuestion()">Next</button>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="question">Question 4: What is the largest ocean on Earth?</div>
+                    <div class="options">
+                        <div class="option">
+                            <input type="radio" id="q4a1" name="q4" value="Pacific Ocean">
+                            <label for="q4a1">Pacific Ocean</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4a2" name="q4" value="Atlantic Ocean">
+                            <label for="q4a2">Atlantic Ocean</label>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn back-btn" onclick="prevQuestion()">Back</button>
+                        <button class="btn next-btn" onclick="submitQuiz()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div class="results" id="results"></div>
+        </div>
+        <script>
+            let currentIndex = 0;
+            const totalQuestions = 4;
+            const answers = {};
+            function nextQuestion() {
+                if (currentIndex < totalQuestions - 1) {
+                    const selectedOption = getSelectedOption();
+                    if (selectedOption) {
+                        answers[`q${currentIndex + 1}`] = selectedOption;
+                    }
+                    currentIndex++;
+                    updateSliderPosition();
+                }
+            }
+            function prevQuestion() {
+                if (currentIndex > 0) {
+                    const selectedOption = getSelectedOption();
+                    if (selectedOption) {
+                        answers[`q${currentIndex + 1}`] = selectedOption;
+                    }
+                    currentIndex--;
+                    updateSliderPosition();
+                }
+            }
+            function updateSliderPosition() {
+                const slider = document.getElementById('slider');
+                slider.scrollTop = currentIndex * slider.clientHeight;
+            }
+            function getSelectedOption() {
+                const radios = document.querySelectorAll(`input[name="q${currentIndex + 1}"]:checked`);
+                return radios.length > 0 ? radios[0].value : null;
+            }
+            function submitQuiz() {
+                const selectedOption = getSelectedOption();
+                if (selectedOption) {
+                    answers[`q${currentIndex + 1}`] = selectedOption;
+                }
+                const selectedOptions = Object.entries(answers)
+                    .map(([question, answer]) => `Question ${question.replace('q', '')}: ${answer}`)
+                    .join(', ');
+                //console.log(selectedOptions);
+                const image = document.getElementById('header-image');
+                const slider = document.getElementById('slider');
+                const results = document.getElementById('results');
+                results.textContent = `The selected options are: ${selectedOptions}`;
+                slider.classList.add('hidden');
+                image.classList.add('hidden');
+                setTimeout(() => {
+                    slider.style.display = 'none';
+                    results.textContent = 'Congratulations!!';
+                    results.style.display = 'block'; 
+                    results.classList.add('visible');
+                    confetti(); 
+                }, 800); 
+                var props = {quizAnswerss: answers};
+                //console.log(props);
+                //clevertap.event.push("testthis",answers);
+                if (window.CleverTap) {
+                    CleverTap.pushEvent("testthis", JSON.stringify(answers));
+                }
+                if (window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.clevertap) {
+                    //var props = {quizAnswers: answers};
+                    var message = { action:'recordEventWithProps', event:'testthis', properties: answers};
+                    window.webkit.messageHandlers.clevertap.postMessage(message);
+                    //console.log(message);
+                }
+            }
+        </script>
+    </body>
+</html>
